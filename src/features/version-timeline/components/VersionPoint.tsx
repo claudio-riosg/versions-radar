@@ -1,32 +1,46 @@
+import { memo, useCallback, useMemo } from 'react'
+import { useRadarNavigation } from '@shared/store/appStore'
 import type { VersionInfo } from '@infrastructure/api/types'
-import type { VersionClickHandler } from '../models'
 
-interface VersionPointProps {
+interface RadarVersionPointProps {
   version: VersionInfo
-  onClick: VersionClickHandler
 }
 
 /**
- * Individual version point in the timeline
+ * Memoized radar-enabled individual version point with optimized navigation
  */
-export const VersionPoint = ({ version, onClick }: VersionPointProps) => {
-  const handleClick = () => onClick(version)
-  
-  const date = new Date(version.publishedAt)
-  const isRecent = Date.now() - date.getTime() < 30 * 24 * 60 * 60 * 1000 // 30 days
+export const VersionPoint = memo<RadarVersionPointProps>(({ version }) => {
+  const { navigation, navigateToChangelogViewer } = useRadarNavigation()
+
+  const handleRadarNavigation = useCallback(() => {
+    if (navigation.selectedPackage) {
+      navigateToChangelogViewer(navigation.selectedPackage, version)
+    }
+  }, [navigation.selectedPackage, navigateToChangelogViewer, version])
+
+  const { date, isRecent } = useMemo(() => {
+    const date = new Date(version.publishedAt)
+    const isRecent = Date.now() - date.getTime() < 30 * 24 * 60 * 60 * 1000 // 30 days
+    return { date, isRecent }
+  }, [version.publishedAt])
 
   return (
-    <div className="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-lg micro-interaction cursor-pointer" onClick={handleClick}>
+    <div
+      className="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-lg micro-interaction cursor-pointer"
+      onClick={handleRadarNavigation}
+    >
       <div className="flex-shrink-0">
-        <div className={`w-4 h-4 rounded-full border-2 ${
-          version.isLatest 
-            ? 'bg-radar-blue border-radar-blue' 
-            : version.isPrerelease 
-              ? 'bg-yellow-400 border-yellow-400'
-              : 'bg-green-400 border-green-400'
-        }`} />
+        <div
+          className={`w-4 h-4 rounded-full border-2 ${
+            version.isLatest
+              ? 'bg-radar-blue border-radar-blue'
+              : version.isPrerelease
+                ? 'bg-yellow-400 border-yellow-400'
+                : 'bg-green-400 border-green-400'
+          }`}
+        />
       </div>
-      
+
       <div className="flex-grow">
         <div className="flex items-center gap-2">
           <span className="font-mono font-bold text-lg">{version.version}</span>
@@ -50,10 +64,10 @@ export const VersionPoint = ({ version, onClick }: VersionPointProps) => {
           Published {date.toLocaleDateString()} at {date.toLocaleTimeString()}
         </p>
       </div>
-      
+
       <div className="flex-shrink-0 text-gray-400">
         <span>→</span>
       </div>
     </div>
   )
-}
+})

@@ -4,39 +4,36 @@ import { NavigationControls } from './components/NavigationControls'
 import { VersionHeader } from './components/VersionHeader'
 import { ChangelogContent } from './components/ChangelogContent'
 import { ErrorMessage, LoadingSpinner } from '@shared/components'
-import type { PackageInfo, VersionInfo } from '@infrastructure/api/types'
-import type { BackToTimelineHandler } from './models'
-
-interface ChangelogViewerProps {
-  packageInfo: PackageInfo
-  versionInfo: VersionInfo
-  onBackToTimeline: BackToTimelineHandler
-}
+import { useRadarNavigation } from '@shared/store/appStore'
 
 /**
- * Main changelog viewer container component
- * Displays detailed release notes from GitHub
+ * Radar-enabled changelog viewer container component
+ * Displays detailed release notes from GitHub with integrated navigation
  */
-export const ChangelogViewer = ({ packageInfo, versionInfo, onBackToTimeline }: ChangelogViewerProps) => {
+export const ChangelogViewer = () => {
+  const { navigation } = useRadarNavigation()
   const { changelog, isLoading, error, fetchChangelog } = useChangelog()
 
   useEffect(() => {
-    fetchChangelog(packageInfo, versionInfo)
-  }, [fetchChangelog, packageInfo, versionInfo])
+    if (navigation.selectedPackage && navigation.selectedVersion) {
+      fetchChangelog(navigation.selectedPackage, navigation.selectedVersion)
+    }
+  }, [fetchChangelog, navigation.selectedPackage, navigation.selectedVersion])
 
   if (error) {
     return (
       <div className="min-h-screen p-8">
         <div className="max-w-4xl mx-auto">
-          <NavigationControls
-            onBackToTimeline={onBackToTimeline}
-            packageName={packageInfo.name}
-          />
-          
+          <NavigationControls packageName={navigation.selectedPackage?.name || 'Package'} />
+
           <div className="flex justify-center">
             <ErrorMessage
               message={error}
-              onRetry={() => fetchChangelog(packageInfo, versionInfo)}
+              onRetry={() =>
+                navigation.selectedPackage &&
+                navigation.selectedVersion &&
+                fetchChangelog(navigation.selectedPackage, navigation.selectedVersion)
+              }
               isLoading={isLoading}
             />
           </div>
@@ -45,20 +42,19 @@ export const ChangelogViewer = ({ packageInfo, versionInfo, onBackToTimeline }: 
     )
   }
 
-  if (isLoading) {
+  if (isLoading || !navigation.selectedPackage || !navigation.selectedVersion) {
     return (
       <div className="min-h-screen p-8">
         <div className="max-w-4xl mx-auto">
-          <NavigationControls
-            onBackToTimeline={onBackToTimeline}
-            packageName={packageInfo.name}
-          />
-          
+          <NavigationControls packageName={navigation.selectedPackage?.name || 'Package'} />
+
           <div className="flex justify-center">
             <LoadingSpinner
               size="lg"
-              icon={packageInfo.icon}
-              message={`Loading ${packageInfo.name} ${versionInfo.version} Changelog`}
+              icon={navigation.selectedPackage?.icon}
+              message={`Loading ${navigation.selectedPackage?.name || 'Package'} ${
+                navigation.selectedVersion?.version || ''
+              } Changelog`}
             />
           </div>
         </div>
@@ -69,14 +65,11 @@ export const ChangelogViewer = ({ packageInfo, versionInfo, onBackToTimeline }: 
   return (
     <div className="min-h-screen p-8">
       <div className="max-w-4xl mx-auto">
-        <NavigationControls
-          onBackToTimeline={onBackToTimeline}
-          packageName={packageInfo.name}
-        />
+        <NavigationControls packageName={navigation.selectedPackage.name} />
 
         <VersionHeader
-          package={packageInfo}
-          version={versionInfo}
+          package={navigation.selectedPackage}
+          version={navigation.selectedVersion}
           changelog={changelog}
         />
 
@@ -89,8 +82,9 @@ export const ChangelogViewer = ({ packageInfo, versionInfo, onBackToTimeline }: 
             <div className="card max-w-md mx-auto">
               <h3 className="text-lg font-medium mb-2">No Changelog Available</h3>
               <p className="text-gray-600">
-                No release notes were found for {packageInfo.name} {versionInfo.version}.
-                This version might not have a corresponding GitHub release.
+                No release notes were found for {navigation.selectedPackage.name}{' '}
+                {navigation.selectedVersion.version}. This version might not have a corresponding
+                GitHub release.
               </p>
             </div>
           </div>

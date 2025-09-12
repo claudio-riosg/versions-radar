@@ -22,13 +22,13 @@ describe('GitHubReleasesClient', () => {
           published_at: '2024-04-25T15:00:00Z',
           html_url: 'https://github.com/facebook/react/releases/tag/v18.3.1',
           prerelease: false,
-          draft: false
-        }
+          draft: false,
+        },
       ]
 
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockReleases)
+        json: () => Promise.resolve(mockReleases),
       })
 
       const result = await client.getPublishedReleases('facebook', 'react')
@@ -37,9 +37,9 @@ describe('GitHubReleasesClient', () => {
         'https://api.github.com/repos/facebook/react/releases',
         expect.objectContaining({
           headers: expect.objectContaining({
-            'Accept': 'application/vnd.github.v3+json',
-            'User-Agent': 'Versions-Radar/1.0'
-          })
+            Accept: 'application/vnd.github.v3+json',
+            'User-Agent': 'Versions-Radar/1.0',
+          }),
         })
       )
       expect(result).toEqual(mockReleases)
@@ -47,10 +47,10 @@ describe('GitHubReleasesClient', () => {
 
     it('should include authorization header when token provided', async () => {
       const clientWithToken = new GitHubReleasesClient('test-token')
-      
+
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve([])
+        json: () => Promise.resolve([]),
       })
 
       await clientWithToken.getPublishedReleases('facebook', 'react')
@@ -59,8 +59,8 @@ describe('GitHubReleasesClient', () => {
         'https://api.github.com/repos/facebook/react/releases',
         expect.objectContaining({
           headers: expect.objectContaining({
-            'Authorization': 'Bearer test-token'
-          })
+            Authorization: 'Bearer test-token',
+          }),
         })
       )
     })
@@ -69,22 +69,24 @@ describe('GitHubReleasesClient', () => {
       mockFetch.mockResolvedValueOnce({
         ok: false,
         status: 403,
-        statusText: 'Forbidden'
+        statusText: 'Forbidden',
       })
 
-      await expect(client.getPublishedReleases('facebook', 'react'))
-        .rejects.toThrow('Failed to fetch releases for facebook/react: GitHub API rate limit exceeded. Consider adding a GitHub token.')
+      await expect(client.getPublishedReleases('facebook', 'react')).rejects.toThrow(
+        'Failed to fetch releases for facebook/react: GitHub API rate limit exceeded. Consider adding a GitHub token.'
+      )
     })
 
     it('should handle other API errors', async () => {
       mockFetch.mockResolvedValueOnce({
         ok: false,
         status: 404,
-        statusText: 'Not Found'
+        statusText: 'Not Found',
       })
 
-      await expect(client.getPublishedReleases('nonexistent', 'repo'))
-        .rejects.toThrow('Failed to fetch releases for nonexistent/repo: GitHub API error: 404 Not Found')
+      await expect(client.getPublishedReleases('nonexistent', 'repo')).rejects.toThrow(
+        'Failed to fetch releases for nonexistent/repo: GitHub API error: 404 Not Found'
+      )
     })
   })
 
@@ -98,7 +100,7 @@ describe('GitHubReleasesClient', () => {
         published_at: '2024-04-25T15:00:00Z',
         html_url: 'https://github.com/facebook/react/releases/tag/v18.3.1',
         prerelease: false,
-        draft: false
+        draft: false,
       },
       {
         id: 2,
@@ -108,15 +110,15 @@ describe('GitHubReleasesClient', () => {
         published_at: '2024-04-25T12:00:00Z',
         html_url: 'https://github.com/facebook/react/releases/tag/18.3.0',
         prerelease: false,
-        draft: false
-      }
+        draft: false,
+      },
     ]
 
     beforeEach(() => {
       vi.clearAllMocks()
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockReleases)
+        json: () => Promise.resolve(mockReleases),
       })
     })
 
@@ -128,7 +130,7 @@ describe('GitHubReleasesClient', () => {
         title: 'React 18.3.1',
         content: 'Bug fixes for React 18.3.1',
         publishedAt: '2024-04-25T15:00:00Z',
-        url: 'https://github.com/facebook/react/releases/tag/v18.3.1'
+        url: 'https://github.com/facebook/react/releases/tag/v18.3.1',
       })
     })
 
@@ -140,7 +142,7 @@ describe('GitHubReleasesClient', () => {
         title: 'React 18.3.0',
         content: 'New features in React 18.3.0',
         publishedAt: '2024-04-25T12:00:00Z',
-        url: 'https://github.com/facebook/react/releases/tag/18.3.0'
+        url: 'https://github.com/facebook/react/releases/tag/18.3.0',
       })
     })
 
@@ -152,7 +154,7 @@ describe('GitHubReleasesClient', () => {
         title: 'React 18.3.1',
         content: 'Bug fixes for React 18.3.1',
         publishedAt: '2024-04-25T15:00:00Z',
-        url: 'https://github.com/facebook/react/releases/tag/v18.3.1'
+        url: 'https://github.com/facebook/react/releases/tag/v18.3.1',
       })
     })
 
@@ -161,25 +163,26 @@ describe('GitHubReleasesClient', () => {
 
       expect(changelog).toBeNull()
     })
-
   })
 
   describe('getChangelogForVersion - empty body', () => {
     it('should handle releases without body', async () => {
-      const releaseWithoutBody = [{
-        id: 1,
-        tag_name: 'v18.3.1',
-        name: 'React 18.3.1',
-        body: null,
-        published_at: '2024-04-25T15:00:00Z',
-        html_url: 'https://github.com/facebook/react/releases/tag/v18.3.1',
-        prerelease: false,
-        draft: false
-      }]
+      const releaseWithoutBody = [
+        {
+          id: 1,
+          tag_name: 'v18.3.1',
+          name: 'React 18.3.1',
+          body: null,
+          published_at: '2024-04-25T15:00:00Z',
+          html_url: 'https://github.com/facebook/react/releases/tag/v18.3.1',
+          prerelease: false,
+          draft: false,
+        },
+      ]
 
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(releaseWithoutBody)
+        json: () => Promise.resolve(releaseWithoutBody),
       })
 
       const changelog = await client.getChangelogForVersion('facebook', 'react', 'v18.3.1')
@@ -199,7 +202,7 @@ describe('GitHubReleasesClient', () => {
           published_at: '2024-04-25T12:00:00Z',
           html_url: 'https://github.com/facebook/react/releases/tag/v18.3.0',
           prerelease: false,
-          draft: false
+          draft: false,
         },
         {
           id: 2,
@@ -209,7 +212,7 @@ describe('GitHubReleasesClient', () => {
           published_at: '2024-04-25T15:00:00Z',
           html_url: 'https://github.com/facebook/react/releases/tag/v18.3.1',
           prerelease: false,
-          draft: false
+          draft: false,
         },
         {
           id: 3,
@@ -219,13 +222,13 @@ describe('GitHubReleasesClient', () => {
           published_at: '2024-05-01T10:00:00Z',
           html_url: 'https://github.com/facebook/react/releases/tag/v19.0.0-draft',
           prerelease: false,
-          draft: true
-        }
+          draft: true,
+        },
       ]
 
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockReleases)
+        json: () => Promise.resolve(mockReleases),
       })
 
       const changelogs = await client.getAllChangelogs('facebook', 'react')

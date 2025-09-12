@@ -1,4 +1,4 @@
-import type { PackageInfo } from '../api/types';
+import type { PackageInfo } from '../api/types'
 
 /**
  * Configuration of packages tracked by the Versions Radar application
@@ -26,7 +26,7 @@ export const TRACKED_PACKAGES: readonly PackageInfo[] = [
     description: 'TypeScript is a superset of JavaScript that compiles to clean JavaScript output',
     icon: '📘',
   },
-] as const;
+] as const
 
 /**
  * Finds a package by display name or NPM name (case-insensitive)
@@ -34,11 +34,12 @@ export const TRACKED_PACKAGES: readonly PackageInfo[] = [
  * @returns Package info or undefined if not found
  */
 export const getPackageByName = (name: string): PackageInfo | undefined => {
-  return TRACKED_PACKAGES.find(pkg => 
-    pkg.name.toLowerCase() === name.toLowerCase() ||
-    pkg.npmName.toLowerCase() === name.toLowerCase()
-  );
-};
+  return TRACKED_PACKAGES.find(
+    pkg =>
+      pkg.name.toLowerCase() === name.toLowerCase() ||
+      pkg.npmName.toLowerCase() === name.toLowerCase()
+  )
+}
 
 /**
  * Finds a package by exact NPM name match
@@ -46,8 +47,8 @@ export const getPackageByName = (name: string): PackageInfo | undefined => {
  * @returns Package info or undefined if not found
  */
 export const getPackageByNpmName = (npmName: string): PackageInfo | undefined => {
-  return TRACKED_PACKAGES.find(pkg => pkg.npmName === npmName);
-};
+  return TRACKED_PACKAGES.find(pkg => pkg.npmName === npmName)
+}
 
 /**
  * Finds a package by GitHub repository path
@@ -55,5 +56,5 @@ export const getPackageByNpmName = (npmName: string): PackageInfo | undefined =>
  * @returns Package info or undefined if not found
  */
 export const getPackageByGithubRepo = (githubRepo: string): PackageInfo | undefined => {
-  return TRACKED_PACKAGES.find(pkg => pkg.githubRepo === githubRepo);
-};
+  return TRACKED_PACKAGES.find(pkg => pkg.githubRepo === githubRepo)
+}

@@ -1,23 +1,18 @@
 import { PackageCard } from './PackageCard'
-import type { DashboardPackage, PackageClickHandler } from '../models'
+import type { DashboardPackage } from '../models'
 
-interface PackageGridProps {
+interface RadarPackageGridProps {
   packages: DashboardPackage[]
-  onPackageClick: PackageClickHandler
 }
 
 /**
- * Grid layout for displaying multiple package cards
+ * Radar-enabled grid layout for displaying package cards with navigation
  */
-export const PackageGrid = ({ packages, onPackageClick }: PackageGridProps) => {
+export const PackageGrid = ({ packages }: RadarPackageGridProps) => {
   return (
     <div className="grid md:grid-cols-3 gap-6">
-      {packages.map((pkg) => (
-        <PackageCard
-          key={pkg.npmName}
-          package={pkg}
-          onClick={onPackageClick}
-        />
+      {packages.map(pkg => (
+        <PackageCard key={pkg.npmName} package={pkg} />
       ))}
     </div>
   )

@@ -17,7 +17,7 @@ export const TimelineControls = ({ versions, onFilter }: TimelineControlsProps) 
   const applyFilters = (newShowPrerelease: boolean, newSortOrder: SortOrder) => {
     const filtered = VersionFilteringService.filterVersionHistory(versions, {
       showPrerelease: newShowPrerelease,
-      sortOrder: newSortOrder
+      sortOrder: newSortOrder,
     })
     onFilter(filtered)
   }
@@ -48,12 +48,12 @@ export const TimelineControls = ({ versions, onFilter }: TimelineControlsProps) 
             />
             <span className="text-sm">Show prereleases</span>
           </label>
-          
+
           <div className="flex items-center gap-2">
             <span className="text-sm text-gray-600">Sort:</span>
             <select
               value={sortOrder}
-              onChange={(e) => handleSortChange(e.target.value as SortOrder)}
+              onChange={e => handleSortChange(e.target.value as SortOrder)}
               className="text-sm border border-gray-300 rounded px-2 py-1"
             >
               <option value="newest">Newest first</option>
@@ -63,8 +63,8 @@ export const TimelineControls = ({ versions, onFilter }: TimelineControlsProps) 
         </div>
 
         <div className="text-sm text-gray-600">
-          <span className="font-medium">{stats.total}</span> total • 
-          <span className="font-medium text-green-600 ml-1">{stats.stable}</span> stable • 
+          <span className="font-medium">{stats.total}</span> total •
+          <span className="font-medium text-green-600 ml-1">{stats.stable}</span> stable •
           <span className="font-medium text-yellow-600 ml-1">{stats.prerelease}</span> prerelease
         </div>
       </div>

@@ -1,18 +1,23 @@
-import type { DashboardPackage, PackageClickHandler } from '../models'
+import { memo, useCallback } from 'react'
+import { useRadarNavigation } from '@shared/store/appStore'
+import type { DashboardPackage } from '../models'
+import type { PackageInfo } from '@infrastructure/api/types'
 
-interface PackageCardProps {
+interface RadarPackageCardProps {
   package: DashboardPackage
-  onClick: PackageClickHandler
 }
 
 /**
- * Individual package card component showing package info and version
+ * Memoized radar-enabled package card component with optimized navigation
  */
-export const PackageCard = ({ package: pkg, onClick }: PackageCardProps) => {
-  const handleClick = () => {
+export const PackageCard = memo<RadarPackageCardProps>(({ package: pkg }) => {
+  const { navigateToVersionTimeline } = useRadarNavigation()
+
+  const handleRadarNavigation = useCallback(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { latestVersion, isLoading, error, ...packageInfo } = pkg
-    onClick(packageInfo)
-  }
+    navigateToVersionTimeline(packageInfo as PackageInfo)
+  }, [navigateToVersionTimeline, pkg])
 
   if (pkg.isLoading) {
     return (
@@ -45,10 +50,7 @@ export const PackageCard = ({ package: pkg, onClick }: PackageCardProps) => {
   }
 
   return (
-    <div 
-      className="card micro-interaction cursor-pointer"
-      onClick={handleClick}
-    >
+    <div className="card micro-interaction cursor-pointer" onClick={handleRadarNavigation}>
       <div className="text-center">
         <div className="text-4xl mb-3">{pkg.icon}</div>
         <h3 className="text-xl font-bold mb-2">{pkg.name}</h3>
@@ -62,4 +64,4 @@ export const PackageCard = ({ package: pkg, onClick }: PackageCardProps) => {
       </div>
     </div>
   )
-}
+})

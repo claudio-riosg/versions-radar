@@ -1,16 +1,14 @@
 import { VersionPoint } from './VersionPoint'
 import type { VersionInfo } from '@infrastructure/api/types'
-import type { VersionClickHandler } from '../models'
 
-interface TimelineChartProps {
+interface RadarTimelineChartProps {
   versions: VersionInfo[]
-  onVersionClick: VersionClickHandler
 }
 
 /**
- * Visual timeline chart displaying version history
+ * Radar-enabled visual timeline chart displaying version history with navigation
  */
-export const TimelineChart = ({ versions, onVersionClick }: TimelineChartProps) => {
+export const TimelineChart = ({ versions }: RadarTimelineChartProps) => {
   if (versions.length === 0) {
     return (
       <div className="text-center py-12">
@@ -23,13 +21,10 @@ export const TimelineChart = ({ versions, onVersionClick }: TimelineChartProps) 
     <div className="space-y-2">
       <div className="relative">
         <div className="absolute left-2 top-0 bottom-0 w-0.5 bg-gray-200" />
-        
-        {versions.map((version) => (
+
+        {versions.map(version => (
           <div key={version.version} className="relative">
-            <VersionPoint
-              version={version}
-              onClick={onVersionClick}
-            />
+            <VersionPoint version={version} />
           </div>
         ))}
       </div>

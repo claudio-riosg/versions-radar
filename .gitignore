@@ -91,3 +91,6 @@ CLAUDE.md
 # AI agents (internal development tools)
 agents/
 *agent*.md
+
+# Internal documentation (development analysis)
+.docs/

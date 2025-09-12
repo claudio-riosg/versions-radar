@@ -3,39 +3,22 @@ import { usePackageVersionsRadar } from './hooks/usePackageVersions'
 import { PackageGrid } from './components/PackageGrid'
 import { PackageVersionsRefresh } from './components/RefreshButton'
 import { ErrorMessage } from '@shared/components'
-import type { PackageClickHandler } from './models'
-
-interface PackageDashboardProps {
-  onPackageClick?: PackageClickHandler
-}
 
 /**
  * Main package dashboard container component
- * Displays latest versions of all tracked packages
+ * Displays latest versions of all tracked packages with radar navigation integration
  */
-export const PackageDashboard = ({ onPackageClick }: PackageDashboardProps) => {
+export const PackageDashboard = () => {
   const { packages, isLoading, error, lastRefresh, fetchVersions } = usePackageVersionsRadar()
 
   useEffect(() => {
     fetchVersions()
   }, [fetchVersions])
 
-  const handlePackageClick: PackageClickHandler = (pkg) => {
-    if (onPackageClick) {
-      onPackageClick(pkg)
-    } else {
-      console.log('Package clicked:', pkg.name)
-    }
-  }
-
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <ErrorMessage
-          message={error}
-          onRetry={fetchVersions}
-          isLoading={isLoading}
-        />
+        <ErrorMessage message={error} onRetry={fetchVersions} isLoading={isLoading} />
       </div>
     )
   }
@@ -53,11 +36,7 @@ export const PackageDashboard = ({ onPackageClick }: PackageDashboardProps) => {
           />
         </header>
 
-
-        <PackageGrid
-          packages={packages}
-          onPackageClick={handlePackageClick}
-        />
+        <PackageGrid packages={packages} />
 
         <footer className="text-center mt-12 text-gray-500">
           <p>Click on any package to view its version history</p>

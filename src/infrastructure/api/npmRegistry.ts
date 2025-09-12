@@ -1,6 +1,6 @@
-import type { NpmPackageResponse, VersionInfo } from './types';
+import type { NpmPackageResponse, VersionInfo } from './types'
 
-const NPM_REGISTRY_BASE = 'https://registry.npmjs.org';
+const NPM_REGISTRY_BASE = 'https://registry.npmjs.org'
 
 /**
  * Client for NPM Registry API operations
@@ -14,22 +14,22 @@ export class NpmRegistryClient {
    * @throws {Error} When package not found or API request fails
    */
   async getPackageInfo(packageName: string): Promise<NpmPackageResponse> {
-    const url = `${NPM_REGISTRY_BASE}/${encodeURIComponent(packageName)}`;
-    
+    const url = `${NPM_REGISTRY_BASE}/${encodeURIComponent(packageName)}`
+
     try {
-      const response = await fetch(url);
-      
+      const response = await fetch(url)
+
       if (!response.ok) {
-        throw new Error(`NPM API error: ${response.status} ${response.statusText}`);
+        throw new Error(`NPM API error: ${response.status} ${response.statusText}`)
       }
-      
-      const data: NpmPackageResponse = await response.json();
-      return data;
+
+      const data: NpmPackageResponse = await response.json()
+      return data
     } catch (error) {
       if (error instanceof Error) {
-        throw new Error(`Failed to fetch package info for ${packageName}: ${error.message}`);
+        throw new Error(`Failed to fetch package info for ${packageName}: ${error.message}`)
       }
-      throw new Error(`Failed to fetch package info for ${packageName}: Unknown error`);
+      throw new Error(`Failed to fetch package info for ${packageName}: Unknown error`)
     }
   }
 
@@ -39,8 +39,8 @@ export class NpmRegistryClient {
    * @returns Latest version string (e.g., '18.3.1')
    */
   async getLatestVersion(packageName: string): Promise<string> {
-    const packageInfo = await this.getPackageInfo(packageName);
-    return packageInfo['dist-tags'].latest;
+    const packageInfo = await this.getPackageInfo(packageName)
+    return packageInfo['dist-tags'].latest
   }
 
   /**
@@ -49,29 +49,29 @@ export class NpmRegistryClient {
    * @returns Array of version info sorted by publish date (newest first)
    */
   async getVersionHistory(packageName: string): Promise<VersionInfo[]> {
-    const packageInfo = await this.getPackageInfo(packageName);
-    const { time, 'dist-tags': distTags } = packageInfo;
-    
-    const versions: VersionInfo[] = [];
-    const latestVersion = distTags.latest;
-    
+    const packageInfo = await this.getPackageInfo(packageName)
+    const { time, 'dist-tags': distTags } = packageInfo
+
+    const versions: VersionInfo[] = []
+    const latestVersion = distTags.latest
+
     for (const [version, publishedAt] of Object.entries(time)) {
-      if (version === 'created' || version === 'modified') continue;
-      if (!version.match(/^\d+\.\d+\.\d+/)) continue;
-      
-      const isPrerelease = version.includes('-');
-      
+      if (version === 'created' || version === 'modified') continue
+      if (!version.match(/^\d+\.\d+\.\d+/)) continue
+
+      const isPrerelease = version.includes('-')
+
       versions.push({
         version,
         publishedAt,
         isLatest: version === latestVersion,
         isPrerelease,
-      });
+      })
     }
-    
-    return versions.sort((a, b) => 
-      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-    );
+
+    return versions.sort(
+      (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+    )
   }
 }
 
@@ -83,4 +83,4 @@ export class NpmRegistryClient {
  * const latestReact = await npmRegistry.getLatestVersion('react')
  * ```
  */
-export const npmRegistry = new NpmRegistryClient();
+export const npmRegistry = new NpmRegistryClient()

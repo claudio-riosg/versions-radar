@@ -1,39 +1,43 @@
 import { useState, useCallback } from 'react'
 import { npmRegistry } from '@infrastructure/api'
 import { ErrorHandlingService } from '@shared/services/errorHandling'
-import type { PackageInfo } from '@infrastructure/api/types'
+import { PackageRadarCacheService } from '@shared/services/packageRadarCacheService'
+import type { PackageInfo, VersionInfo } from '@infrastructure/api/types'
 import type { TimelineState } from '../models'
 
 /**
- * Hook for managing version history data for a specific package
+ * Cache-enabled hook for managing version history data for a specific package
  */
 export const useVersionHistory = () => {
   const [state, setState] = useState<TimelineState>({
     package: null,
     versions: [],
     isLoading: false,
-    error: null
+    error: null,
   })
 
   const fetchVersionHistory = useCallback(async (packageInfo: PackageInfo) => {
-    setState(prev => ({ 
-      ...prev, 
+    setState(prev => ({
+      ...prev,
       package: packageInfo,
-      isLoading: true, 
-      error: null 
+      isLoading: true,
+      error: null,
     }))
 
     const handleError = ErrorHandlingService.createHookErrorHandler(
-      setState, 
+      setState,
       `${packageInfo.name} version history`
     )
 
     try {
-      const versions = await npmRegistry.getVersionHistory(packageInfo.npmName)
+      const versions = await PackageRadarCacheService.retrieveOrFetchVersionTimelineData<
+        VersionInfo[]
+      >(packageInfo.npmName, () => npmRegistry.getVersionHistory(packageInfo.npmName))
+
       setState(prev => ({
         ...prev,
         versions,
-        isLoading: false
+        isLoading: false,
       }))
     } catch (error) {
       handleError(error)
@@ -42,6 +46,6 @@ export const useVersionHistory = () => {
 
   return {
     ...state,
-    fetchVersionHistory
+    fetchVersionHistory,
   }
 }

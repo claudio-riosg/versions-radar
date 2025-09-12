@@ -17,12 +17,12 @@ describe('NpmRegistryClient', () => {
         name: 'react',
         'dist-tags': { latest: '18.3.1' },
         time: { '18.3.1': '2024-04-25T12:00:00.000Z' },
-        versions: { '18.3.1': { version: '18.3.1' } }
+        versions: { '18.3.1': { version: '18.3.1' } },
       }
 
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockResponse)
+        json: () => Promise.resolve(mockResponse),
       })
 
       const result = await client.getPackageInfo('react')
@@ -36,12 +36,12 @@ describe('NpmRegistryClient', () => {
         name: '@angular/core',
         'dist-tags': { latest: '17.0.0' },
         time: { '17.0.0': '2023-11-08T12:00:00.000Z' },
-        versions: { '17.0.0': { version: '17.0.0' } }
+        versions: { '17.0.0': { version: '17.0.0' } },
       }
 
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockResponse)
+        json: () => Promise.resolve(mockResponse),
       })
 
       await client.getPackageInfo('@angular/core')
@@ -53,18 +53,20 @@ describe('NpmRegistryClient', () => {
       mockFetch.mockResolvedValueOnce({
         ok: false,
         status: 404,
-        statusText: 'Not Found'
+        statusText: 'Not Found',
       })
 
-      await expect(client.getPackageInfo('nonexistent-package'))
-        .rejects.toThrow('Failed to fetch package info for nonexistent-package: NPM API error: 404 Not Found')
+      await expect(client.getPackageInfo('nonexistent-package')).rejects.toThrow(
+        'Failed to fetch package info for nonexistent-package: NPM API error: 404 Not Found'
+      )
     })
 
     it('should handle network errors', async () => {
       mockFetch.mockRejectedValueOnce(new Error('Network error'))
 
-      await expect(client.getPackageInfo('react'))
-        .rejects.toThrow('Failed to fetch package info for react: Network error')
+      await expect(client.getPackageInfo('react')).rejects.toThrow(
+        'Failed to fetch package info for react: Network error'
+      )
     })
   })
 
@@ -74,12 +76,12 @@ describe('NpmRegistryClient', () => {
         'dist-tags': { latest: '18.3.1', beta: '19.0.0-beta.1' },
         time: {},
         versions: {},
-        name: 'react'
+        name: 'react',
       }
 
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockResponse)
+        json: () => Promise.resolve(mockResponse),
       })
 
       const version = await client.getLatestVersion('react')
@@ -93,19 +95,19 @@ describe('NpmRegistryClient', () => {
       const mockResponse = {
         'dist-tags': { latest: '18.3.1' },
         time: {
-          'created': '2013-05-29T20:32:44.045Z',
-          'modified': '2024-04-25T15:30:12.123Z',
+          created: '2013-05-29T20:32:44.045Z',
+          modified: '2024-04-25T15:30:12.123Z',
           '18.3.0': '2024-04-25T12:00:00.000Z',
           '18.3.1': '2024-04-25T15:00:00.000Z',
-          '19.0.0-beta.1': '2024-05-01T10:00:00.000Z'
+          '19.0.0-beta.1': '2024-05-01T10:00:00.000Z',
         },
         versions: {},
-        name: 'react'
+        name: 'react',
       }
 
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockResponse)
+        json: () => Promise.resolve(mockResponse),
       })
 
       const versions = await client.getVersionHistory('react')
@@ -115,19 +117,19 @@ describe('NpmRegistryClient', () => {
         version: '19.0.0-beta.1',
         publishedAt: '2024-05-01T10:00:00.000Z',
         isLatest: false,
-        isPrerelease: true
+        isPrerelease: true,
       })
       expect(versions[1]).toEqual({
         version: '18.3.1',
         publishedAt: '2024-04-25T15:00:00.000Z',
         isLatest: true,
-        isPrerelease: false
+        isPrerelease: false,
       })
       expect(versions[2]).toEqual({
         version: '18.3.0',
         publishedAt: '2024-04-25T12:00:00.000Z',
         isLatest: false,
-        isPrerelease: false
+        isPrerelease: false,
       })
     })
 
@@ -135,18 +137,18 @@ describe('NpmRegistryClient', () => {
       const mockResponse = {
         'dist-tags': { latest: '1.0.0' },
         time: {
-          'created': '2023-01-01T00:00:00.000Z',
-          'modified': '2023-01-01T00:00:00.000Z',
+          created: '2023-01-01T00:00:00.000Z',
+          modified: '2023-01-01T00:00:00.000Z',
           '1.0.0': '2023-01-01T00:00:00.000Z',
-          'invalid-version': '2023-01-01T00:00:00.000Z'
+          'invalid-version': '2023-01-01T00:00:00.000Z',
         },
         versions: {},
-        name: 'test-package'
+        name: 'test-package',
       }
 
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockResponse)
+        json: () => Promise.resolve(mockResponse),
       })
 
       const versions = await client.getVersionHistory('test-package')

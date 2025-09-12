@@ -128,7 +128,7 @@ export class ErrorHandlingService {
       originalError: message,
       userFriendlyMessage,
       isRetryable,
-      suggestedAction
+      suggestedAction,
     }
   }
 
@@ -136,17 +136,14 @@ export class ErrorHandlingService {
    * Hook utility for consistent error state management
    * Returns standardized error handling for React hooks
    */
-  static createHookErrorHandler<T>(
-    setState: (updater: (prev: T) => T) => void,
-    context?: string
-  ) {
+  static createHookErrorHandler<T>(setState: (updater: (prev: T) => T) => void, context?: string) {
     return (error: unknown) => {
       const processedError = this.processError(error, context)
-      
+
       setState(prev => ({
         ...prev,
         isLoading: false,
-        error: processedError.userFriendlyMessage
+        error: processedError.userFriendlyMessage,
       }))
 
       // Log the technical error for debugging
@@ -160,7 +157,7 @@ export class ErrorHandlingService {
    */
   static getItemErrorMessage(error: unknown, itemName?: string): string {
     const processedError = this.processError(error, itemName ? `${itemName} package` : 'package')
-    
+
     // For individual items, provide shorter, more specific messages
     switch (processedError.category) {
       case 'api-rate-limit':
@@ -182,8 +179,7 @@ export class ErrorHandlingService {
    * @returns true if the error is suitable for automatic retry
    */
   static shouldRetry(error: ProcessedError): boolean {
-    return error.isRetryable && 
-           error.category !== 'api-rate-limit' // Don't auto-retry rate limits
+    return error.isRetryable && error.category !== 'api-rate-limit' // Don't auto-retry rate limits
   }
 
   /**
