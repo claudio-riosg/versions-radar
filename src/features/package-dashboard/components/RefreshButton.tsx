@@ -16,7 +16,12 @@ export const PackageVersionsRefresh = ({
 }: PackageVersionsRefreshProps) => {
   return (
     <div className="text-center">
-      <button onClick={onRefresh} disabled={isLoading} className="btn-primary micro-interaction">
+      <button 
+        type="button"
+        onClick={onRefresh} 
+        disabled={isLoading} 
+        className="btn-primary micro-interaction"
+      >
         {isLoading ? '🔄 Refreshing...' : '🔄 Refresh Versions'}
       </button>
       {lastRefresh && (

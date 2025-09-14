@@ -6,9 +6,9 @@ import type { PackageInfo, VersionInfo } from '@infrastructure/api/types'
 import type { TimelineState } from '../models'
 
 /**
- * Cache-enabled hook for managing version history data for a specific package
+ * Hook for managing version timeline data and package history tracking.
  */
-export const useVersionHistory = () => {
+export const useVersionTimelineRadar = () => {
   const [state, setState] = useState<TimelineState>({
     package: null,
     versions: [],

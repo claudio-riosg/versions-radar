@@ -1,19 +1,25 @@
-import { useState, useEffect } from 'react'
-import { useVersionHistory } from './hooks/useVersionHistory'
-import { TimelineChart } from './components/TimelineChart'
-import { TimelineControls } from './components/TimelineControls'
+import { useState, useEffect, useCallback } from 'react'
+import { useVersionTimelineRadar } from './hooks/useVersionTimelineRadar'
+import { VersionTimelineVisualization } from './components/VersionTimelineVisualization'
+import { VersionTimelineFilters } from './components/VersionTimelineFilters'
 import { ErrorMessage, LoadingSpinner, BackButton } from '@shared/components'
 import { useRadarNavigation } from '@shared/store/appStore'
 import type { VersionInfo } from '@infrastructure/api/types'
 
 /**
- * Radar-enabled version timeline container component
- * Displays chronological history of package versions with integrated navigation
+ * Container component for version timeline 
+ * Orchestrates data fetching and navigation logic
  */
 export const VersionTimeline = () => {
-  const { navigation } = useRadarNavigation()
-  const { package: pkg, versions, isLoading, error, fetchVersionHistory } = useVersionHistory()
+  const { navigation, navigateToChangelogViewer } = useRadarNavigation()
+  const { package: pkg, versions, isLoading, error, fetchVersionHistory } = useVersionTimelineRadar()
   const [filteredVersions, setFilteredVersions] = useState<VersionInfo[]>([])
+
+  const handleVersionSelect = useCallback((version: VersionInfo) => {
+    if (navigation.selectedPackage) {
+      navigateToChangelogViewer(navigation.selectedPackage, version)
+    }
+  }, [navigation.selectedPackage, navigateToChangelogViewer])
 
   useEffect(() => {
     if (navigation.selectedPackage) {
@@ -70,11 +76,11 @@ export const VersionTimeline = () => {
         </header>
 
         {filteredVersions.length > 0 && (
-          <TimelineControls versions={versions} onFilter={setFilteredVersions} />
+          <VersionTimelineFilters versions={versions} onFilter={setFilteredVersions} />
         )}
 
         <div className="mt-8">
-          <TimelineChart versions={filteredVersions} />
+          <VersionTimelineVisualization versions={filteredVersions} onVersionSelect={handleVersionSelect} />
         </div>
 
         <footer className="text-center mt-12 text-gray-500">

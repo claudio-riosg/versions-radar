@@ -1,23 +1,23 @@
-import { memo, useCallback } from 'react'
-import { useRadarNavigation } from '@shared/store/appStore'
+import { memo } from 'react'
 import type { DashboardPackage } from '../models'
-import type { PackageInfo } from '@infrastructure/api/types'
+import type { PackageSelectionHandler } from '../models'
 
-interface RadarPackageCardProps {
+interface PackageCardProps {
   package: DashboardPackage
+  onPackageSelect: PackageSelectionHandler
+  className?: string
 }
 
 /**
- * Memoized radar-enabled package card component with optimized navigation
+ * Pure presentational component for displaying package information
+ * Receives all data and handlers as props - no business logic
  */
-export const PackageCard = memo<RadarPackageCardProps>(({ package: pkg }) => {
-  const { navigateToVersionTimeline } = useRadarNavigation()
-
-  const handleRadarNavigation = useCallback(() => {
+export const PackageCard = memo<PackageCardProps>(({ package: pkg, onPackageSelect, className }) => {
+  const handleClick = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { latestVersion, isLoading, error, ...packageInfo } = pkg
-    navigateToVersionTimeline(packageInfo as PackageInfo)
-  }, [navigateToVersionTimeline, pkg])
+    onPackageSelect(packageInfo)
+  }
 
   if (pkg.isLoading) {
     return (
@@ -50,7 +50,11 @@ export const PackageCard = memo<RadarPackageCardProps>(({ package: pkg }) => {
   }
 
   return (
-    <div className="card micro-interaction cursor-pointer" onClick={handleRadarNavigation}>
+    <div 
+      className={`card micro-interaction cursor-pointer ${className || ''}`} 
+      onClick={handleClick}
+      data-testid={`package-${pkg.npmName}`}
+    >
       <div className="text-center">
         <div className="text-4xl mb-3">{pkg.icon}</div>
         <h3 className="text-xl font-bold mb-2">{pkg.name}</h3>

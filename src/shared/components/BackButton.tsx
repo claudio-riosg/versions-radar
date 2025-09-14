@@ -14,7 +14,7 @@ export const BackButton = ({ children, variant = 'secondary' }: RadarBackButtonP
   const buttonClass = variant === 'primary' ? 'btn-primary' : 'btn-secondary'
 
   return (
-    <button onClick={navigateToPreviousRadarView} className={`${buttonClass} micro-interaction`}>
+    <button type="button" onClick={navigateToPreviousRadarView} className={`${buttonClass} micro-interaction`}>
       {children}
     </button>
   )

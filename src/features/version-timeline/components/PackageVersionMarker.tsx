@@ -1,22 +1,21 @@
-import { memo, useCallback, useMemo } from 'react'
-import { useRadarNavigation } from '@shared/store/appStore'
+import { memo, useMemo } from 'react'
 import type { VersionInfo } from '@infrastructure/api/types'
+import type { VersionSelectionHandler } from '../models'
 
-interface RadarVersionPointProps {
+interface PackageVersionMarkerProps {
   version: VersionInfo
+  onVersionSelect: VersionSelectionHandler
+  className?: string
 }
 
 /**
- * Memoized radar-enabled individual version point with optimized navigation
+ * Visual marker for individual package version releases in timeline.
+ * Interactive point displaying version info with click-to-view functionality.
  */
-export const VersionPoint = memo<RadarVersionPointProps>(({ version }) => {
-  const { navigation, navigateToChangelogViewer } = useRadarNavigation()
-
-  const handleRadarNavigation = useCallback(() => {
-    if (navigation.selectedPackage) {
-      navigateToChangelogViewer(navigation.selectedPackage, version)
-    }
-  }, [navigation.selectedPackage, navigateToChangelogViewer, version])
+export const PackageVersionMarker = memo<PackageVersionMarkerProps>(({ version, onVersionSelect, className }) => {
+  const handleClick = () => {
+    onVersionSelect(version)
+  }
 
   const { date, isRecent } = useMemo(() => {
     const date = new Date(version.publishedAt)
@@ -26,8 +25,9 @@ export const VersionPoint = memo<RadarVersionPointProps>(({ version }) => {
 
   return (
     <div
-      className="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-lg micro-interaction cursor-pointer"
-      onClick={handleRadarNavigation}
+      className={`flex items-center gap-4 p-4 hover:bg-gray-50 rounded-lg micro-interaction cursor-pointer ${className || ''}`}
+      onClick={handleClick}
+      data-testid={`version-${version.version}`}
     >
       <div className="flex-shrink-0">
         <div

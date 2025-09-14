@@ -2,13 +2,13 @@ import { useState, useCallback } from 'react'
 import { githubReleases } from '@infrastructure/api'
 import { ErrorHandlingService } from '@shared/services/errorHandling'
 import { PackageRadarCacheService } from '@shared/services/packageRadarCacheService'
-import type { PackageInfo, VersionInfo } from '@infrastructure/api/types'
+import type { PackageInfo, VersionInfo, ChangelogInfo } from '@infrastructure/api/types'
 import type { ChangelogState } from '../models'
 
 /**
- * Cache-enabled hook for managing changelog data from GitHub releases
+ * Hook for managing changelog content from GitHub releases.
  */
-export const useChangelog = () => {
+export const useChangelogRadar = () => {
   const [state, setState] = useState<ChangelogState>({
     package: null,
     version: null,
@@ -34,7 +34,7 @@ export const useChangelog = () => {
     try {
       const [owner, repo] = packageInfo.githubRepo.split('/')
       
-      const changelog = await PackageRadarCacheService.retrieveOrFetchChangelogData<string | null>(
+      const changelog = await PackageRadarCacheService.retrieveOrFetchChangelogData<ChangelogInfo | null>(
         packageInfo.npmName,
         versionInfo.version,
         () => githubReleases.getChangelogForVersion(owner, repo, versionInfo.version)

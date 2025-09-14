@@ -22,7 +22,7 @@ export const ErrorMessage = ({
       <h2 className="text-xl font-bold text-red-600 mb-2">{title}</h2>
       <p className="text-gray-700 mb-4">{message}</p>
       {onRetry && (
-        <button onClick={onRetry} className="btn-primary" disabled={isLoading}>
+        <button type="button" onClick={onRetry} className="btn-primary" disabled={isLoading}>
           {isLoading ? 'Retrying...' : retryText}
         </button>
       )}

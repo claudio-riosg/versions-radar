@@ -1,15 +1,23 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { usePackageVersionsRadar } from './hooks/usePackageVersions'
 import { PackageGrid } from './components/PackageGrid'
 import { PackageVersionsRefresh } from './components/RefreshButton'
 import { ErrorMessage } from '@shared/components'
+import { useRadarNavigation } from '@shared/store/appStore'
+import type { CleanPackageInfo } from './models'
+import type { PackageInfo } from '@infrastructure/api/types'
 
 /**
- * Main package dashboard container component
- * Displays latest versions of all tracked packages with radar navigation integration
+ * Container component for package dashboard
+ * Orchestrates data fetching and navigation logic
  */
 export const PackageDashboard = () => {
   const { packages, isLoading, error, lastRefresh, fetchVersions } = usePackageVersionsRadar()
+  const { navigateToVersionTimeline } = useRadarNavigation()
+
+  const handlePackageSelect = useCallback((packageInfo: CleanPackageInfo) => {
+    navigateToVersionTimeline(packageInfo as PackageInfo)
+  }, [navigateToVersionTimeline])
 
   useEffect(() => {
     fetchVersions()
@@ -36,7 +44,7 @@ export const PackageDashboard = () => {
           />
         </header>
 
-        <PackageGrid packages={packages} />
+        <PackageGrid packages={packages} onPackageSelect={handlePackageSelect} />
 
         <footer className="text-center mt-12 text-gray-500">
           <p>Click on any package to view its version history</p>

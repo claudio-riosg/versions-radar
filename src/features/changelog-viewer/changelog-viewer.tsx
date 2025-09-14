@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useChangelog } from './hooks/useChangelog'
+import { useChangelogRadar } from './hooks/useChangelogRadar'
 import { NavigationControls } from './components/NavigationControls'
 import { VersionHeader } from './components/VersionHeader'
 import { ChangelogContent } from './components/ChangelogContent'
@@ -12,7 +12,7 @@ import { useRadarNavigation } from '@shared/store/appStore'
  */
 export const ChangelogViewer = () => {
   const { navigation } = useRadarNavigation()
-  const { changelog, isLoading, error, fetchChangelog } = useChangelog()
+  const { changelog, isLoading, error, fetchChangelog } = useChangelogRadar()
 
   useEffect(() => {
     if (navigation.selectedPackage && navigation.selectedVersion) {
