@@ -1,61 +1,27 @@
-import { useState } from 'react'
 import { PackageDashboard } from '@features/package-dashboard/package-dashboard'
 import { VersionTimeline } from '@features/version-timeline/version-timeline'
 import { ChangelogViewer } from '@features/changelog-viewer/changelog-viewer'
-import type { PackageInfo, VersionInfo } from '@infrastructure/api/types'
-
-type AppView = 'dashboard' | 'timeline' | 'changelog'
+import { useRadarNavigation } from '@shared/store/appStore'
 
 /**
- * Main application entry point
- * Temporary routing between features before implementing proper router
+ * Main application entry point with container/presentational architecture
+ *
+ * Uses global radar store for state management. All components are now
+ * either pure containers or pure presentational components with proper
+ * separation of concerns.
  */
 function App() {
-  const [currentView, setCurrentView] = useState<AppView>('dashboard')
-  const [selectedPackage, setSelectedPackage] = useState<PackageInfo | null>(null)
-  const [selectedVersion, setSelectedVersion] = useState<VersionInfo | null>(null)
+  const { navigation } = useRadarNavigation()
 
-  const handlePackageClick = (pkg: PackageInfo) => {
-    setSelectedPackage(pkg)
-    setCurrentView('timeline')
+  if (navigation.currentView === 'timeline') {
+    return <VersionTimeline />
   }
 
-  const handleVersionClick = (version: VersionInfo) => {
-    setSelectedVersion(version)
-    setCurrentView('changelog')
+  if (navigation.currentView === 'changelog') {
+    return <ChangelogViewer />
   }
 
-  const handleBackToDashboard = () => {
-    setCurrentView('dashboard')
-    setSelectedPackage(null)
-  }
-
-  const handleBackToTimeline = () => {
-    setCurrentView('timeline')
-    setSelectedVersion(null)
-  }
-
-  if (currentView === 'timeline' && selectedPackage) {
-    return (
-      <VersionTimeline
-        packageInfo={selectedPackage}
-        onBack={handleBackToDashboard}
-        onVersionClick={handleVersionClick}
-      />
-    )
-  }
-
-  if (currentView === 'changelog' && selectedVersion && selectedPackage) {
-    return (
-      <ChangelogViewer
-        packageInfo={selectedPackage}
-        versionInfo={selectedVersion}
-        onBackToTimeline={handleBackToTimeline}
-      />
-    )
-  }
-
-  return <PackageDashboard onPackageClick={handlePackageClick} />
+  return <PackageDashboard />
 }
 
 export default App

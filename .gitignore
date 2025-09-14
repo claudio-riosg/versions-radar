@@ -85,9 +85,11 @@ temp/
 .yarn-integrity
 
 # Project documentation (sensitive/internal)
-PROJECT_DOCUMENTATION.md
 CLAUDE.md
 
 # AI agents (internal development tools)
 agents/
 *agent*.md
+
+# Internal documentation (development analysis)
+.docs/

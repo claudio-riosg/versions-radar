@@ -1,35 +1,53 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-radar-blue: #0066cc;
   --color-radar-gray: #f8fafc;
   --color-radar-dark: #1e293b;
-  
+
   --animate-fade-in: fade-in 0.5s ease-in-out;
   --animate-slide-up: slide-up 0.3s ease-out;
   --animate-pulse-soft: pulse-soft 2s infinite;
 }
 
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slide-up {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes pulse-soft {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 @layer base {
   html {
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family:
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
-  
+
   body {
     background-color: var(--color-radar-gray);
     color: var(--color-radar-dark);
@@ -47,11 +65,11 @@
     font-weight: 500;
     transition: background-color 0.2s;
   }
-  
+
   .btn-primary:hover {
     background-color: #0056b3;
   }
-  
+
   .btn-secondary {
     background-color: #e5e7eb;
     color: var(--color-radar-dark);
@@ -60,11 +78,11 @@
     font-weight: 500;
     transition: background-color 0.2s;
   }
-  
+
   .btn-secondary:hover {
     background-color: #d1d5db;
   }
-  
+
   .card {
     background-color: white;
     border-radius: 0.75rem;
@@ -73,19 +91,19 @@
     padding: 1.5rem;
     transition: box-shadow 0.2s;
   }
-  
+
   .card:hover {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   }
-  
+
   .micro-interaction {
     transition: transform 0.15s;
   }
-  
+
   .micro-interaction:hover {
     transform: scale(1.05);
   }
-  
+
   .micro-interaction:active {
     transform: scale(0.95);
   }

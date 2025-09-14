@@ -22,31 +22,19 @@ export const ChangelogContent = ({ changelog }: ChangelogContentProps) => {
               </h1>
             ),
             h2: ({ children }) => (
-              <h2 className="text-xl font-semibold mb-3 text-radar-dark mt-6">
-                {children}
-              </h2>
+              <h2 className="text-xl font-semibold mb-3 text-radar-dark mt-6">{children}</h2>
             ),
             h3: ({ children }) => (
-              <h3 className="text-lg font-medium mb-2 text-radar-dark mt-4">
-                {children}
-              </h3>
+              <h3 className="text-lg font-medium mb-2 text-radar-dark mt-4">{children}</h3>
             ),
             ul: ({ children }) => (
-              <ul className="list-disc list-inside space-y-1 mb-4 text-gray-700">
-                {children}
-              </ul>
+              <ul className="list-disc list-inside space-y-1 mb-4 text-gray-700">{children}</ul>
             ),
             ol: ({ children }) => (
-              <ol className="list-decimal list-inside space-y-1 mb-4 text-gray-700">
-                {children}
-              </ol>
+              <ol className="list-decimal list-inside space-y-1 mb-4 text-gray-700">{children}</ol>
             ),
-            li: ({ children }) => (
-              <li className="text-gray-700">{children}</li>
-            ),
-            p: ({ children }) => (
-              <p className="mb-4 text-gray-700 leading-relaxed">{children}</p>
-            ),
+            li: ({ children }) => <li className="text-gray-700">{children}</li>,
+            p: ({ children }) => <p className="mb-4 text-gray-700 leading-relaxed">{children}</p>,
             code: ({ children, className }) => {
               const isInline = !className
               if (isInline) {

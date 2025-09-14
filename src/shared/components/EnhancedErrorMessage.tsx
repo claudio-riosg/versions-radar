@@ -14,14 +14,14 @@ interface EnhancedErrorMessageProps {
  * Enhanced error message component with categorized error handling
  * Uses ErrorHandlingService for consistent error processing and user-friendly messages
  */
-export const EnhancedErrorMessage = ({ 
+export const EnhancedErrorMessage = ({
   error,
   context,
-  title = "Something went wrong",
-  onRetry, 
+  title = 'Something went wrong',
+  onRetry,
   isLoading = false,
-  retryText = "Try Again",
-  showTechnicalDetails = false
+  retryText = 'Try Again',
+  showTechnicalDetails = false,
 }: EnhancedErrorMessageProps) => {
   const processedError: ProcessedError = ErrorHandlingService.processError(error, context)
 
@@ -59,18 +59,14 @@ export const EnhancedErrorMessage = ({
     <div className="card max-w-md text-center">
       {/* Error Icon and Title */}
       <div className="mb-3">
-        <div className="text-3xl mb-2">
-          {getCategoryIcon(processedError.category)}
-        </div>
+        <div className="text-3xl mb-2">{getCategoryIcon(processedError.category)}</div>
         <h2 className={`text-xl font-bold mb-2 ${getCategoryColor(processedError.category)}`}>
           {title}
         </h2>
       </div>
 
       {/* User-Friendly Message */}
-      <p className="text-gray-700 mb-4 leading-relaxed">
-        {processedError.userFriendlyMessage}
-      </p>
+      <p className="text-gray-700 mb-4 leading-relaxed">{processedError.userFriendlyMessage}</p>
 
       {/* Suggested Action */}
       {processedError.suggestedAction && (
@@ -84,11 +80,7 @@ export const EnhancedErrorMessage = ({
       {/* Retry Button */}
       {onRetry && processedError.isRetryable && (
         <div className="mb-4">
-          <button 
-            onClick={onRetry} 
-            disabled={isLoading}
-            className="btn-primary micro-interaction"
-          >
+          <button onClick={onRetry} disabled={isLoading} className="btn-primary micro-interaction">
             {isLoading ? (
               <>
                 <span className="inline-block animate-spin mr-2">🔄</span>
@@ -108,17 +100,27 @@ export const EnhancedErrorMessage = ({
             Technical Details
           </summary>
           <div className="bg-gray-100 rounded p-3 text-xs font-mono text-gray-600">
-            <div><strong>Category:</strong> {processedError.category}</div>
-            <div><strong>Context:</strong> {context || 'Unknown'}</div>
-            <div><strong>Retryable:</strong> {processedError.isRetryable ? 'Yes' : 'No'}</div>
-            <div><strong>Original:</strong> {String(processedError.originalError)}</div>
+            <div>
+              <strong>Category:</strong> {processedError.category}
+            </div>
+            <div>
+              <strong>Context:</strong> {context || 'Unknown'}
+            </div>
+            <div>
+              <strong>Retryable:</strong> {processedError.isRetryable ? 'Yes' : 'No'}
+            </div>
+            <div>
+              <strong>Original:</strong> {String(processedError.originalError)}
+            </div>
           </div>
         </details>
       )}
 
       {/* Category Badge */}
       <div className="mt-4 pt-3 border-t border-gray-200">
-        <span className={`inline-block px-2 py-1 rounded text-xs font-medium bg-gray-100 ${getCategoryColor(processedError.category)}`}>
+        <span
+          className={`inline-block px-2 py-1 rounded text-xs font-medium bg-gray-100 ${getCategoryColor(processedError.category)}`}
+        >
           {processedError.category.replace('-', ' ')}
         </span>
       </div>

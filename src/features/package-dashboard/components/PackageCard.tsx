@@ -1,17 +1,22 @@
-import type { DashboardPackage, PackageClickHandler } from '../models'
+import { memo } from 'react'
+import type { DashboardPackage } from '../models'
+import type { PackageSelectionHandler } from '../models'
 
 interface PackageCardProps {
   package: DashboardPackage
-  onClick: PackageClickHandler
+  onPackageSelect: PackageSelectionHandler
+  className?: string
 }
 
 /**
- * Individual package card component showing package info and version
+ * Pure presentational component for displaying package information
+ * Receives all data and handlers as props - no business logic
  */
-export const PackageCard = ({ package: pkg, onClick }: PackageCardProps) => {
+export const PackageCard = memo<PackageCardProps>(({ package: pkg, onPackageSelect, className }) => {
   const handleClick = () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { latestVersion, isLoading, error, ...packageInfo } = pkg
-    onClick(packageInfo)
+    onPackageSelect(packageInfo)
   }
 
   if (pkg.isLoading) {
@@ -46,8 +51,9 @@ export const PackageCard = ({ package: pkg, onClick }: PackageCardProps) => {
 
   return (
     <div 
-      className="card micro-interaction cursor-pointer"
+      className={`card micro-interaction cursor-pointer ${className || ''}`} 
       onClick={handleClick}
+      data-testid={`package-${pkg.npmName}`}
     >
       <div className="text-center">
         <div className="text-4xl mb-3">{pkg.icon}</div>
@@ -62,4 +68,4 @@ export const PackageCard = ({ package: pkg, onClick }: PackageCardProps) => {
       </div>
     </div>
   )
-}
+})

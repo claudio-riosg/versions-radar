@@ -9,12 +9,17 @@ interface PackageVersionsRefreshProps {
 /**
  * Control for refreshing package versions radar data with loading state
  */
-export const PackageVersionsRefresh = ({ onRefresh, isLoading, lastRefresh }: PackageVersionsRefreshProps) => {
+export const PackageVersionsRefresh = ({
+  onRefresh,
+  isLoading,
+  lastRefresh,
+}: PackageVersionsRefreshProps) => {
   return (
     <div className="text-center">
-      <button
-        onClick={onRefresh}
-        disabled={isLoading}
+      <button 
+        type="button"
+        onClick={onRefresh} 
+        disabled={isLoading} 
         className="btn-primary micro-interaction"
       >
         {isLoading ? '🔄 Refreshing...' : '🔄 Refresh Versions'}

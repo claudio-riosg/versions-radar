@@ -1,5 +1,10 @@
 import type { PackageInfo, VersionInfo, ChangelogInfo } from '@infrastructure/api/types'
 
+/**
+ * Changelog Viewer Business Domain Models.
+ * Core interfaces and types for changelog viewing functionality.
+ */
+
 export interface ChangelogState {
   package: PackageInfo | null
   version: VersionInfo | null

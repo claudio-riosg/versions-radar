@@ -11,15 +11,15 @@ interface VersionHeaderProps {
  */
 export const VersionHeader = ({ package: pkg, version, changelog }: VersionHeaderProps) => {
   const publishDate = new Date(version.publishedAt)
-  
+
   return (
     <div className="text-center mb-8">
       <div className="text-4xl mb-4">{pkg.icon}</div>
-      
+
       <h1 className="text-3xl font-bold mb-2">
         {pkg.name} {version.version}
       </h1>
-      
+
       <div className="flex items-center justify-center gap-4 mb-4">
         {version.isLatest && (
           <span className="bg-radar-blue text-white px-3 py-1 rounded-full text-sm font-medium">
