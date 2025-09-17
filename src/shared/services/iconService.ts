@@ -1,6 +1,15 @@
 /**
- * Icon service utilities for validation and optimization
- * Part of shared services used across multiple features
+ * Icon Service Utilities
+ *
+ * Shared service used by multiple features for icon management
+ * Provides utilities for validation, styling, and optimization
+ *
+ * Used by:
+ * - package-dashboard (icon generation and styling)
+ * - version-timeline (icon validation and classes)
+ * - changelog-viewer (accessibility and sprites)
+ *
+ * This follows the Scope Rule: used by 2+ features = shared directory
  */
 
 import {

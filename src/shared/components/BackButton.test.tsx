@@ -1,7 +1,7 @@
 /**
  * BackButton Component Tests - Co-located with BackButton.tsx
  * 
- * Following TDD with comprehensive navigation and interaction testing.
+ * Tests component functionality.
  * Tests radar navigation integration, button variants, and accessibility.
  */
 

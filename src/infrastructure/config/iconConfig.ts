@@ -1,6 +1,9 @@
 /**
- * Icon system configuration and type definitions
- * Centralized icon registry following Scope Rule architecture
+ * Icon System Technical Configuration
+ *
+ * Pure infrastructure concern: technical configuration for icon system
+ * Contains only technical specifications, no business domain logic
+ * Business mappings are in @shared/config/packageIcons.ts
  */
 
 // Technology icons available in sprite
@@ -89,23 +92,8 @@ export interface IconProps {
   'data-testid'?: string
 }
 
-// Package icon mapping (maps package names to icon names)
-export const PACKAGE_ICON_MAP: Record<string, TechnologyIconName> = Object.freeze({
-  react: 'react',
-  '@angular/core': 'angular',
-  typescript: 'typescript',
-  'node.js': 'nodejs',
-} as const)
-
-/**
- * Get icon name for a package
- * @param packageName - NPM package name or display name
- * @returns Corresponding icon name or undefined
- */
-export const getPackageIcon = (packageName: string): TechnologyIconName | undefined => {
-  const normalizedName = packageName.toLowerCase()
-  return PACKAGE_ICON_MAP[normalizedName] as TechnologyIconName
-}
+// Pure technical configuration - no business logic
+// Business mappings have been moved to @shared/config/packageIcons.ts
 
 /**
  * Validate if an icon name exists in the registry

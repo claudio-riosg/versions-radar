@@ -1,6 +1,7 @@
 /**
- * Icon Configuration Tests - TDD for configuration and utilities
- * Testing icon registry, type definitions, and utility functions
+ * Icon Technical Configuration Tests
+ * Testing pure infrastructure concerns: icon registry, types, utilities
+ * Business logic tests moved to @shared/config/packageIcons.test.ts
  */
 
 import { describe, it, expect } from 'vitest'
@@ -9,8 +10,6 @@ import {
   UI_ICONS,
   ICONS,
   ICON_SIZES,
-  PACKAGE_ICON_MAP,
-  getPackageIcon,
   isValidIconName,
   getIconPixelSize,
 } from './iconConfig'
@@ -69,45 +68,7 @@ describe('Icon Configuration', () => {
     })
   })
 
-  describe('Package Icon Mapping', () => {
-    it('should map common packages to correct icons', () => {
-      expect(PACKAGE_ICON_MAP.react).toBe('react')
-      expect(PACKAGE_ICON_MAP['@angular/core']).toBe('angular')
-      expect(PACKAGE_ICON_MAP.typescript).toBe('typescript')
-      expect(PACKAGE_ICON_MAP['node.js']).toBe('nodejs')
-    })
-
-    it('should only map to valid technology icons', () => {
-      Object.values(PACKAGE_ICON_MAP).forEach(iconName => {
-        expect(iconName in TECHNOLOGY_ICONS).toBe(true)
-      })
-    })
-  })
-
-  describe('getPackageIcon', () => {
-    it('should return correct icon for exact package matches', () => {
-      expect(getPackageIcon('react')).toBe('react')
-      expect(getPackageIcon('@angular/core')).toBe('angular')
-      expect(getPackageIcon('typescript')).toBe('typescript')
-    })
-
-    it('should handle case-insensitive matching', () => {
-      expect(getPackageIcon('React')).toBe('react')
-      expect(getPackageIcon('REACT')).toBe('react')
-      expect(getPackageIcon('TypeScript')).toBe('typescript')
-    })
-
-    it('should return undefined for unmapped packages', () => {
-      expect(getPackageIcon('unknown-package')).toBeUndefined()
-      expect(getPackageIcon('lodash')).toBeUndefined()
-      expect(getPackageIcon('')).toBeUndefined()
-    })
-
-    it('should handle special npm package names', () => {
-      expect(getPackageIcon('@angular/core')).toBe('angular')
-      expect(getPackageIcon('node.js')).toBe('nodejs')
-    })
-  })
+  // Package mapping tests moved to @shared/config/packageIcons.test.ts
 
   describe('isValidIconName', () => {
     it('should return true for valid technology icons', () => {
@@ -243,11 +204,6 @@ describe('Icon Configuration', () => {
       }).toThrow()
     })
 
-    it('should prevent modification of package icon mapping', () => {
-      expect(() => {
-        // @ts-expect-error - Testing runtime immutability
-        PACKAGE_ICON_MAP.newPackage = 'react'
-      }).toThrow()
-    })
+    // Package icon mapping immutability tests moved to @shared/config/packageIcons.test.ts
   })
 })

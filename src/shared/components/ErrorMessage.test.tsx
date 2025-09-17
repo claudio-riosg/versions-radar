@@ -1,7 +1,7 @@
 /**
  * ErrorMessage Component Tests - Co-located with ErrorMessage.tsx
  * 
- * Following TDD with comprehensive error display and interaction testing.
+ * Tests component functionality.
  * Tests error messaging, retry functionality, loading states, and accessibility.
  */
 

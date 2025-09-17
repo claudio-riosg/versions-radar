@@ -1,7 +1,7 @@
 /**
  * PackageCard Component Tests - Co-located with PackageCard.tsx
  * 
- * Following TDD RED-GREEN-REFACTOR for presentational component testing.
+ * Tests component functionality.
  * Tests UI states, user interactions, and proper data handling.
  */
 

@@ -1,7 +1,7 @@
 /**
  * PackageVersionsRefresh Component Tests - Co-located with RefreshButton.tsx
  * 
- * Following TDD with reusable mocks and comprehensive state testing.
+ * Tests component functionality.
  * Tests loading states, user interactions, and timestamp display.
  */
 

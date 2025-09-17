@@ -1,7 +1,7 @@
 /**
  * NavigationControls Component Tests - Co-located with NavigationControls.tsx
  * 
- * Following TDD with comprehensive navigation and breadcrumb testing.
+ * Tests component functionality.
  * Tests BackButton integration, package name display, and contextual navigation text.
  */
 

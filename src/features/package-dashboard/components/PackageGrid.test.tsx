@@ -1,7 +1,7 @@
 /**
  * PackageGrid Component Tests - Co-located with PackageGrid.tsx
  * 
- * Following TDD with reusable mocks for efficient testing.
+ * Tests component grid layout and package rendering.
  * Tests layout, iteration logic, and prop passing.
  */
 
@@ -11,10 +11,10 @@ import { PackageGrid } from './PackageGrid'
 import type { DashboardPackage } from '../models'
 
 // ==============================================================================
-// REUSABLE MOCKS - Export for use in other test files
+// Test mocks
 // ==============================================================================
 
-/** Reusable mock factory for DashboardPackage */
+/** Mock factory for DashboardPackage */
 export const createMockDashboardPackage = (overrides: Partial<DashboardPackage> = {}): DashboardPackage => ({
   npmName: 'react',
   name: 'React',
@@ -27,7 +27,7 @@ export const createMockDashboardPackage = (overrides: Partial<DashboardPackage> 
   ...overrides,
 })
 
-/** Reusable mock packages collection */
+/** Mock packages collection */
 export const mockPackagesCollection = {
   /** Single package collection */
   single: (): DashboardPackage[] => [

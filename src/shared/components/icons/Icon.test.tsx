@@ -1,6 +1,6 @@
 /**
- * Icon Component Tests - Following TDD RED-GREEN-REFACTOR
- * Comprehensive test suite for SVG sprite icon system
+ * Icon Component Tests
+ * Test suite for SVG sprite icon system
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'

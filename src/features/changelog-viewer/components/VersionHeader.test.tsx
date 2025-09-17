@@ -1,7 +1,7 @@
 /**
  * VersionHeader Component Tests - Co-located with VersionHeader.tsx
  * 
- * Following TDD with comprehensive version metadata and badge testing.
+ * Tests component functionality.
  * Tests package information display, version badges, date formatting, and GitHub links.
  */
 

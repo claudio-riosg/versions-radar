@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { NpmRegistryClient } from '../npmRegistry'
+import { NpmRegistryClient } from './npmRegistry'
 
 describe('NpmRegistryClient', () => {
   let client: NpmRegistryClient

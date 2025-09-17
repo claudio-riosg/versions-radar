@@ -1,7 +1,6 @@
 /**
  * PackageDashboard Container Tests - Co-located with package-dashboard.tsx
  * 
- * Following TDD with comprehensive mocking strategy using all reusable mocks.
  * Tests business logic orchestration, hook integration, and error handling.
  */
 
@@ -9,14 +8,14 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { PackageDashboard } from './package-dashboard'
 
-// Import reusable declarative mocks
+// Import test mocks
 import {
   packageDashboardHookScenarios
 } from './test-utils/packageDashboardMocks'
 import { mockZustandHooks } from '@shared/store/appStore.mocks'
 
 // ==============================================================================
-// CONTAINER-SPECIFIC MOCKS - Building on reusable component mocks
+// Component mocks
 // ==============================================================================
 
 /** Mock the custom hook that fetches package data */
@@ -88,7 +87,7 @@ vi.mock('@shared/store/appStore', () => ({
   useRadarNavigation: () => mockUseRadarNavigation(),
 }))
 
-// Hook scenarios now imported from declarative mocks file
+// Hook scenarios from mocks
 
 // ==============================================================================
 // CONTAINER TESTS
