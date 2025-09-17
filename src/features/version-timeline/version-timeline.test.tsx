@@ -1,7 +1,6 @@
 /**
- * VersionTimeline Container Component Tests - Co-located with version-timeline.tsx
- * 
- * Following TDD with comprehensive integration testing.
+ * VersionTimeline Container Component Tests
+ *
  * Tests container logic, hook orchestration, navigation flow, and child component integration.
  */
 
@@ -115,7 +114,7 @@ describe('VersionTimeline Container Component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    
+
     // Reset to default state
     Object.assign(mockVersionHistoryState, {
       package: null,
@@ -123,7 +122,7 @@ describe('VersionTimeline Container Component', () => {
       isLoading: false,
       error: null,
     })
-    
+
     Object.assign(mockNavigationState, {
       navigation: {
         selectedPackage: null,
@@ -168,7 +167,9 @@ describe('VersionTimeline Container Component', () => {
 
       const { container } = render(<VersionTimeline />)
 
-      const loadingContainer = container.querySelector('.min-h-screen.flex.items-center.justify-center')
+      const loadingContainer = container.querySelector(
+        '.min-h-screen.flex.items-center.justify-center'
+      )
       expect(loadingContainer).toBeInTheDocument()
     })
   })
@@ -248,7 +249,6 @@ describe('VersionTimeline Container Component', () => {
   })
 
   describe('Success State - Timeline Display', () => {
-
     it('should display package information in header', () => {
       setupSuccessState()
 
@@ -256,7 +256,9 @@ describe('VersionTimeline Container Component', () => {
 
       expect(screen.getByText('⚛️')).toBeInTheDocument()
       expect(screen.getByText('React Version History')).toBeInTheDocument()
-      expect(screen.getByText('A JavaScript library for building user interfaces')).toBeInTheDocument()
+      expect(
+        screen.getByText('A JavaScript library for building user interfaces')
+      ).toBeInTheDocument()
       expect(screen.getByTestId('back-button')).toHaveTextContent('← Back to Dashboard')
     })
 
@@ -275,7 +277,7 @@ describe('VersionTimeline Container Component', () => {
       render(<VersionTimeline />)
 
       expect(screen.getByTestId('timeline-chart')).toBeInTheDocument()
-      
+
       // Initially should show all versions
       versions.forEach(version => {
         expect(screen.getByTestId(`chart-version-${version.version}`)).toBeInTheDocument()
@@ -346,7 +348,7 @@ describe('VersionTimeline Container Component', () => {
 
     it('should not navigate when no selected package', () => {
       const { versions } = setupSuccessState()
-      
+
       render(<VersionTimeline />)
 
       // First verify we have the timeline rendered
@@ -439,7 +441,7 @@ describe('VersionTimeline Container Component', () => {
 
       // VersionTimelineVisualization should receive filtered versions
       expect(screen.getAllByTestId(/^chart-version-/)).toHaveLength(1)
-      
+
       // But controls should still have access to all versions for statistics
       expect(screen.getByTestId('versions-count')).toHaveTextContent(versions.length.toString())
     })
@@ -456,7 +458,7 @@ describe('VersionTimeline Container Component', () => {
       // In the real component, this would happen through VersionTimelineFilters onFilter prop
       const timelineChart = screen.getByTestId('timeline-chart')
       expect(timelineChart).toBeInTheDocument()
-      
+
       // Chart should gracefully handle empty results (would show no buttons)
       // This tests the integration pattern rather than specific filtering logic
     })
@@ -476,7 +478,7 @@ describe('VersionTimeline Container Component', () => {
         npmPackage: '@angular/core',
         githubRepo: 'angular/angular',
         icon: '🅰️',
-        description: 'The modern web developer\'s platform',
+        description: "The modern web developer's platform",
       }
       mockVersionHistoryState.package = newPackage
 
@@ -489,16 +491,16 @@ describe('VersionTimeline Container Component', () => {
     it('should handle navigation state transitions correctly', () => {
       // Start in loading state
       mockNavigationState.navigation.selectedPackage = null
-      
+
       const { rerender } = render(<VersionTimeline />)
-      
+
       expect(screen.getByTestId('loading-spinner')).toBeInTheDocument()
 
       // Transition to success state
       setupSuccessState()
-      
+
       rerender(<VersionTimeline />)
-      
+
       expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
       expect(screen.getByText('React Version History')).toBeInTheDocument()
     })

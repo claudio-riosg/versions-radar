@@ -1,7 +1,7 @@
 /**
  * PackageVersionMarker Component Tests - Co-located with PackageVersionMarker.tsx
  * 
- * Following TDD with declarative mocks and comprehensive UI state testing.
+ * Tests component functionality.
  * Tests version badges, date calculations, and user interactions.
  */
 

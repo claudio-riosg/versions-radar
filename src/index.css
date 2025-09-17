@@ -8,6 +8,22 @@
   --animate-fade-in: fade-in 0.5s ease-in-out;
   --animate-slide-up: slide-up 0.3s ease-out;
   --animate-pulse-soft: pulse-soft 2s infinite;
+
+  /* Icon system color variants */
+  --color-icon-primary: var(--color-radar-blue);
+  --color-icon-secondary: #6b7280;
+  --color-icon-success: #059669;
+  --color-icon-warning: #d97706;
+  --color-icon-error: #dc2626;
+  --color-icon-muted: #9ca3af;
+
+  /* Icon size utilities */
+  --size-icon-xs: 1rem;    /* 16px */
+  --size-icon-sm: 1.25rem; /* 20px */
+  --size-icon-md: 1.5rem;  /* 24px */
+  --size-icon-lg: 2rem;    /* 32px */
+  --size-icon-xl: 3rem;    /* 48px */
+  --size-icon-2xl: 4rem;   /* 64px */
 }
 
 @keyframes fade-in {
@@ -107,4 +123,33 @@
   .micro-interaction:active {
     transform: scale(0.95);
   }
+
+  /* Icon system component utilities */
+  .icon {
+    display: inline-block;
+    flex-shrink: 0;
+    vertical-align: middle;
+    fill: currentColor;
+  }
+
+  .icon-interactive {
+    transition: color 0.15s ease-in-out, transform 0.15s ease-in-out;
+    cursor: pointer;
+  }
+
+  .icon-interactive:hover {
+    transform: scale(1.1);
+  }
+
+  .icon-interactive:active {
+    transform: scale(0.95);
+  }
+
+  /* Icon size variants using CSS custom properties */
+  .icon-xs { width: var(--size-icon-xs); height: var(--size-icon-xs); }
+  .icon-sm { width: var(--size-icon-sm); height: var(--size-icon-sm); }
+  .icon-md { width: var(--size-icon-md); height: var(--size-icon-md); }
+  .icon-lg { width: var(--size-icon-lg); height: var(--size-icon-lg); }
+  .icon-xl { width: var(--size-icon-xl); height: var(--size-icon-xl); }
+  .icon-2xl { width: var(--size-icon-2xl); height: var(--size-icon-2xl); }
 }

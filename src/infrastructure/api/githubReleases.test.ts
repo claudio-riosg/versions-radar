@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { GitHubReleasesClient } from '../githubReleases'
+import { GitHubReleasesClient } from './githubReleases'
 
 describe('GitHubReleasesClient', () => {
   let client: GitHubReleasesClient

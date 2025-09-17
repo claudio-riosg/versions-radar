@@ -1,4 +1,5 @@
 import { ErrorHandlingService, type ProcessedError } from '@shared/services/errorHandling'
+import { UIIcon, LoadingIcon } from './icons'
 
 interface EnhancedErrorMessageProps {
   error: unknown
@@ -13,6 +14,7 @@ interface EnhancedErrorMessageProps {
 /**
  * Enhanced error message component with categorized error handling
  * Uses ErrorHandlingService for consistent error processing and user-friendly messages
+ * Now uses SVG icons for better accessibility and consistency
  */
 export const EnhancedErrorMessage = ({
   error,
@@ -28,15 +30,15 @@ export const EnhancedErrorMessage = ({
   const getCategoryIcon = (category: ProcessedError['category']) => {
     switch (category) {
       case 'network':
-        return '📶'
+        return 'external'
       case 'api-rate-limit':
-        return '⏳'
+        return 'clock'
       case 'not-found':
-        return '🔍'
+        return 'search'
       case 'validation':
-        return '⚠️'
+        return 'warning'
       default:
-        return '❌'
+        return 'error'
     }
   }
 
@@ -59,7 +61,17 @@ export const EnhancedErrorMessage = ({
     <div className="card max-w-md text-center">
       {/* Error Icon and Title */}
       <div className="mb-3">
-        <div className="text-3xl mb-2">{getCategoryIcon(processedError.category)}</div>
+        <div className="flex justify-center mb-2">
+          <UIIcon
+            name={getCategoryIcon(processedError.category)}
+            size="2xl"
+            variant={processedError.category === 'validation' ? 'warning' : 'error'}
+            accessibility={{
+              decorative: false,
+              title: `${processedError.category} error`
+            }}
+          />
+        </div>
         <h2 className={`text-xl font-bold mb-2 ${getCategoryColor(processedError.category)}`}>
           {title}
         </h2>
@@ -71,8 +83,17 @@ export const EnhancedErrorMessage = ({
       {/* Suggested Action */}
       {processedError.suggestedAction && (
         <div className="bg-gray-50 rounded-lg p-3 mb-4">
-          <p className="text-sm text-gray-600">
-            💡 <strong>Tip:</strong> {processedError.suggestedAction}
+          <p className="text-sm text-gray-600 flex items-start gap-2">
+            <UIIcon
+              name="info"
+              size="sm"
+              variant="secondary"
+              accessibility={{
+                decorative: false,
+                title: 'Tip'
+              }}
+            />
+            <span><strong>Tip:</strong> {processedError.suggestedAction}</span>
           </p>
         </div>
       )}
@@ -80,14 +101,27 @@ export const EnhancedErrorMessage = ({
       {/* Retry Button */}
       {onRetry && processedError.isRetryable && (
         <div className="mb-4">
-          <button onClick={onRetry} disabled={isLoading} className="btn-primary micro-interaction">
+          <button
+            onClick={onRetry}
+            disabled={isLoading}
+            className="btn-primary micro-interaction flex items-center gap-2 mx-auto"
+          >
             {isLoading ? (
               <>
-                <span className="inline-block animate-spin mr-2">🔄</span>
+                <LoadingIcon size="sm" />
                 Retrying...
               </>
             ) : (
-              retryText
+              <>
+                <UIIcon
+                  name="refresh"
+                  accessibility={{
+                    decorative: false,
+                    title: 'Retry action'
+                  }}
+                />
+                {retryText}
+              </>
             )}
           </button>
         </div>

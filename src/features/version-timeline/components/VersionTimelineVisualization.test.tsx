@@ -1,7 +1,7 @@
 /**
  * VersionTimelineVisualization Component Tests - Co-located with VersionTimelineVisualization.tsx
  * 
- * Following TDD with declarative mocks for layout and interaction testing.
+ * Tests component functionality.
  * Tests timeline rendering, empty states, and version point integration.
  */
 

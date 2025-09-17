@@ -1,8 +1,11 @@
 import type { PackageInfo } from '../api/types'
+import type { TechnologyIconName } from './iconConfig'
 
 /**
  * Configuration of packages tracked by the Versions Radar application
  * Add new packages here to extend tracking capabilities
+ *
+ * Now uses SVG sprite icons instead of emoji for better accessibility and consistency
  */
 export const TRACKED_PACKAGES: readonly PackageInfo[] = [
   {
@@ -10,21 +13,21 @@ export const TRACKED_PACKAGES: readonly PackageInfo[] = [
     npmName: 'react',
     githubRepo: 'facebook/react',
     description: 'A JavaScript library for building user interfaces',
-    icon: '⚛️',
+    icon: 'react' as TechnologyIconName,
   },
   {
     name: 'Angular',
     npmName: '@angular/core',
     githubRepo: 'angular/angular',
     description: 'Platform for building mobile and desktop web applications',
-    icon: '🅰️',
+    icon: 'angular' as TechnologyIconName,
   },
   {
     name: 'TypeScript',
     npmName: 'typescript',
     githubRepo: 'microsoft/TypeScript',
     description: 'TypeScript is a superset of JavaScript that compiles to clean JavaScript output',
-    icon: '📘',
+    icon: 'typescript' as TechnologyIconName,
   },
 ] as const
 

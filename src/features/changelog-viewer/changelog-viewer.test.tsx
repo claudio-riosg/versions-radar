@@ -1,7 +1,7 @@
 /**
  * ChangelogViewer Container Component Tests - Co-located with changelog-viewer.tsx
  * 
- * Following TDD with comprehensive container integration testing.
+ * Tests component functionality.
  * Tests hook orchestration, navigation state management, and child component integration.
  */
 

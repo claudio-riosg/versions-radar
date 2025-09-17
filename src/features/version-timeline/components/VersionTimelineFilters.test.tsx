@@ -1,7 +1,7 @@
 /**
  * VersionTimelineFilters Component Tests - Co-located with VersionTimelineFilters.tsx
  * 
- * Following TDD with comprehensive state management and service integration testing.
+ * Tests component functionality.
  * Tests filtering controls, sort options, and statistics display.
  */
 

@@ -1,7 +1,7 @@
 /**
  * ChangelogContent Component Tests - Co-located with ChangelogContent.tsx
  * 
- * Following TDD with comprehensive markdown rendering and styling testing.
+ * Tests component functionality.
  * Tests ReactMarkdown integration, custom components, and content formatting.
  */
 
