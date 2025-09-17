@@ -33,13 +33,15 @@ export interface GitHubRelease {
   draft: boolean
 }
 
+import type { TechnologyIconName } from '../config/iconConfig'
+
 // Internal Domain Types
 export interface PackageInfo {
   name: string
   npmName: string
   githubRepo: string
   description?: string
-  icon?: string
+  icon: TechnologyIconName // Now strongly typed to available technology icons
 }
 
 export interface VersionInfo {

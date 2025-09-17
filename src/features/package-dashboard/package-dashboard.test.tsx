@@ -122,7 +122,7 @@ describe('PackageDashboard Container Component', () => {
       render(<PackageDashboard />)
 
       // Should show main structure
-      expect(screen.getByText('📡 Versions Radar')).toBeInTheDocument()
+      expect(screen.getByText('Versions Radar')).toBeInTheDocument()
       expect(screen.getByText('Track the latest versions of your favorite packages')).toBeInTheDocument()
 
       // Should show refresh button in loading state
@@ -163,7 +163,7 @@ describe('PackageDashboard Container Component', () => {
       expect(screen.getByTestId('retry-button')).toBeInTheDocument()
 
       // Should NOT show main dashboard content
-      expect(screen.queryByText('📡 Versions Radar')).not.toBeInTheDocument()
+      expect(screen.queryByText('Versions Radar')).not.toBeInTheDocument()
       expect(screen.queryByTestId('package-grid')).not.toBeInTheDocument()
     })
 
@@ -348,7 +348,7 @@ describe('PackageDashboard Container Component', () => {
       render(<PackageDashboard />)
 
       // Header section
-      expect(screen.getByText('📡 Versions Radar')).toBeInTheDocument()
+      expect(screen.getByText('Versions Radar')).toBeInTheDocument()
       expect(screen.getByText('Track the latest versions of your favorite packages')).toBeInTheDocument()
 
       // Refresh section

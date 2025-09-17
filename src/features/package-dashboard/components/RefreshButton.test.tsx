@@ -81,7 +81,7 @@ describe('PackageVersionsRefresh Presentational Component', () => {
 
       const button = screen.getByRole('button')
       expect(button).toBeInTheDocument()
-      expect(button).toHaveTextContent('🔄 Refresh Versions')
+      expect(button).toHaveTextContent('Refresh Versions')
       expect(button).not.toBeDisabled()
       expect(button).toHaveClass('btn-primary', 'micro-interaction')
     })
@@ -92,7 +92,7 @@ describe('PackageVersionsRefresh Presentational Component', () => {
       render(<PackageVersionsRefresh {...props} />)
 
       const button = screen.getByRole('button')
-      expect(button).toHaveTextContent('🔄 Refreshing...')
+      expect(button).toHaveTextContent('Refreshing...')
       expect(button).toBeDisabled()
     })
 
@@ -138,7 +138,7 @@ describe('PackageVersionsRefresh Presentational Component', () => {
       render(<PackageVersionsRefresh {...props} />)
 
       // Should show both loading state and timestamp
-      expect(screen.getByText('🔄 Refreshing...')).toBeInTheDocument()
+      expect(screen.getByText('Refreshing...')).toBeInTheDocument()
       expect(screen.getByText('Last updated: 2:30:00 PM')).toBeInTheDocument()
     })
 
@@ -202,7 +202,7 @@ describe('PackageVersionsRefresh Presentational Component', () => {
       )
 
       // Initially loading
-      expect(screen.getByText('🔄 Refreshing...')).toBeInTheDocument()
+      expect(screen.getByText('Refreshing...')).toBeInTheDocument()
       expect(screen.getByRole('button')).toBeDisabled()
 
       // Transition to loaded
@@ -214,7 +214,7 @@ describe('PackageVersionsRefresh Presentational Component', () => {
         />
       )
 
-      expect(screen.getByText('🔄 Refresh Versions')).toBeInTheDocument()
+      expect(screen.getByText('Refresh Versions')).toBeInTheDocument()
       expect(screen.getByRole('button')).not.toBeDisabled()
     })
 

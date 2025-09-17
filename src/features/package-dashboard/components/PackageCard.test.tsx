@@ -16,7 +16,7 @@ describe('PackageCard Presentational Component', () => {
       const mockPackage = createMockDashboardPackage({
         name: 'React',
         description: 'A JavaScript library for building user interfaces',
-        icon: '⚛️',
+        icon: 'react',
         latestVersion: '18.0.0',
       })
       const mockHandler = vi.fn()
@@ -26,7 +26,7 @@ describe('PackageCard Presentational Component', () => {
       // Verify all key information is displayed
       expect(screen.getByText('React')).toBeInTheDocument()
       expect(screen.getByText('A JavaScript library for building user interfaces')).toBeInTheDocument()
-      expect(screen.getByText('⚛️')).toBeInTheDocument()
+      expect(screen.getByTestId('icon-react')).toBeInTheDocument()
       expect(screen.getByText('18.0.0')).toBeInTheDocument()
       expect(screen.getByText('Latest Version')).toBeInTheDocument()
     })
@@ -151,7 +151,7 @@ describe('PackageCard Presentational Component', () => {
         npmName: 'react',
         name: 'React',
         description: 'A JavaScript library',
-        icon: '⚛️',
+        icon: 'react',
         githubRepo: 'facebook/react',
         latestVersion: '18.0.0',
         isLoading: false,
@@ -171,7 +171,7 @@ describe('PackageCard Presentational Component', () => {
         npmName: 'react',
         name: 'React', 
         description: 'A JavaScript library',
-        icon: '⚛️',
+        icon: 'react',
         githubRepo: 'facebook/react',
         // latestVersion, isLoading, error should be omitted
       })

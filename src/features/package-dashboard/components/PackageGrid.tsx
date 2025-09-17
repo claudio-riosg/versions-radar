@@ -13,7 +13,7 @@ interface PackageGridProps {
  */
 export const PackageGrid = ({ packages, onPackageSelect }: PackageGridProps) => {
   return (
-    <div className="grid md:grid-cols-3 gap-6">
+    <div className="grid md:grid-cols-3 gap-6 items-stretch">
       {packages.map(pkg => (
         <PackageCard 
           key={pkg.npmName} 
